@@ -1,4 +1,4 @@
-package com.med.medicinesmanager;
+package com.simplesolutions.medicinesmanager;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
