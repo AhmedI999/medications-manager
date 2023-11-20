@@ -1,4 +1,4 @@
-package com.simplesolutions.medicinesmanager.service;
+package com.simplesolutions.medicinesmanager.service.patient;
 
 import com.simplesolutions.medicinesmanager.model.Patient;
 import org.springframework.stereotype.Repository;
