@@ -11,4 +11,8 @@ public interface PatientDao {
     List<Patient> selectAllPatients();
 
     Optional<Patient> selectPatientById(Integer id);
+
+    void savePatient(Patient patient);
+
+    boolean doesPatientExists(String email);
 }

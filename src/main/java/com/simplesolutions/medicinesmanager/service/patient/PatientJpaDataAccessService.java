@@ -1,6 +1,6 @@
 package com.simplesolutions.medicinesmanager.service.patient;
 
-import com.simplesolutions.medicinesmanager.exception.ResourceNotFound;
+import com.simplesolutions.medicinesmanager.exception.ResourceNotFoundException;
 import com.simplesolutions.medicinesmanager.model.Patient;
 import com.simplesolutions.medicinesmanager.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +20,16 @@ public class PatientJpaDataAccessService implements PatientDao {
     @Override
     public Optional<Patient> selectPatientById(Integer id) {
         return Optional.of(patientRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFound("patient with id (%s) not found".formatted(id))));
+                () -> new ResourceNotFoundException("patient with id (%s) not found".formatted(id))));
+    }
+
+    @Override
+    public void savePatient(Patient patient) {
+        patientRepository.save(patient);
+    }
+
+    @Override
+    public boolean doesPatientExists(String email) {
+        return patientRepository.existsPatientByEmail(email);
     }
 }

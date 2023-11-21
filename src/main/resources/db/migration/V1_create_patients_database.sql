@@ -11,9 +11,9 @@ create table medicine
 (
     id SERIAL PRIMARY KEY,
     brand_name VARCHAR(255) NOT NULL,
-    active_ingredient VARCHAR(255) NOT NULL,
-    times_daily INT,
-    instructions VARCHAR(255),
+    active_ingredient VARCHAR(255),
+    times_daily INT NOT NULL,
+    instructions VARCHAR(255)   NOT NULL,
     interactions TEXT[],
     patient_id INT REFERENCES patients(id) ON DELETE CASCADE
 );

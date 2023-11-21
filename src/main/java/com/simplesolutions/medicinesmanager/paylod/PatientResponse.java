@@ -1,5 +1,6 @@
 package com.simplesolutions.medicinesmanager.paylod;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.simplesolutions.medicinesmanager.model.Medicine;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
