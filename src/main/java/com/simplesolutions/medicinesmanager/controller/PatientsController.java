@@ -1,11 +1,8 @@
 package com.simplesolutions.medicinesmanager.controller;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.simplesolutions.medicinesmanager.model.Medicine;
 import com.simplesolutions.medicinesmanager.model.Patient;
-import com.simplesolutions.medicinesmanager.paylod.MedicineResponse;
-import com.simplesolutions.medicinesmanager.paylod.PatientRegistrationRequest;
-import com.simplesolutions.medicinesmanager.paylod.PatientResponse;
+import com.simplesolutions.medicinesmanager.paylod.*;
 import com.simplesolutions.medicinesmanager.service.medicine.MedicineService;
 import com.simplesolutions.medicinesmanager.service.patient.PatientService;
 import jakarta.validation.Valid;
@@ -26,7 +23,11 @@ public class PatientsController {
     public List<Patient> getAllPatients() {
         return patientService.getAllPatients();
     }
-    @GetMapping("/{patientId}")
+    @GetMapping("{patientId}/medicines")
+    public List<Medicine> getAllPatientMedicines(@PathVariable("patientId") Integer id){
+        return medicineService.getPatientMedicines(id);
+    }
+    @GetMapping("{patientId}")
     public ResponseEntity<PatientResponse> getPatient(@PathVariable("patientId") Integer id) {
         Patient patient = patientService.getPatientById(id);
         return ResponseEntity.ok( new PatientResponse(patient.getEmail(), patient.getFirstname()
@@ -45,5 +46,38 @@ public class PatientsController {
         // for now, we will return success string
         return ResponseEntity.ok("Patient saved successfully!");
     }
+    @PostMapping("/{patientId}/medicines")
+    public ResponseEntity<String> savePatientMedicine(@PathVariable("patientId") Integer patientId,
+                                                      @RequestBody @Valid MedicineRegistrationRequest request){
+        Patient patient = patientService.getPatientById(patientId);
+        medicineService.savePatientMedicine(request, patient);
+        return ResponseEntity.ok("Patient medicine saved successfully");
+    }
+    @DeleteMapping("/{patientId}")
+    public ResponseEntity<String> deletePatient(@PathVariable("patientId") Integer id) {
+        Patient patient = patientService.getPatientById(id);
+        patientService.deletePatient(patient.getId());
+        return ResponseEntity.ok("Patient deleted successfully");
+    }
+    @DeleteMapping ("/{patientId}/medicines/{medicineId}")
+    public ResponseEntity<String> deleteMedicine(@PathVariable("patientId") Integer patientId,
+                                                 @PathVariable("medicineId") Integer medicineId){
+        medicineService.deletePatientMedicineById(patientId, medicineId);
+        return ResponseEntity.ok("Medicine deleted Successfully");
+    }
+    @PutMapping("{patientId}")
+    public ResponseEntity<Patient> editPatientDetails(@PathVariable("patientId") Integer patientId,
+                                                              @RequestBody @Valid PatientUpdateRequest request){
+        patientService.editPatientDetails(patientId, request);
+        return ResponseEntity.ok(patientService.getPatientById(patientId));
+    }
+    @PutMapping("{patientId}/medicines/{medicineId}")
+    public ResponseEntity<Medicine> editMedicineDetails(@PathVariable("patientId") Integer patientId,
+                                                      @PathVariable("medicineId") Integer medicineId,
+                                                      @RequestBody @Valid MedicineUpdateRequest request){
+        medicineService.editMedicineDetails(patientId, medicineId, request);
+        return ResponseEntity.ok(medicineService.getPatientMedicineById(patientId, medicineId));
+    }
+
 }
 

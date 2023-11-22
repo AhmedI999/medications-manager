@@ -8,10 +8,10 @@ import java.util.Date;
 
 @ResponseStatus(code = HttpStatus.CONFLICT)
 @Getter
-public class PatientAlreadyExistsException extends RuntimeException {
+public class DuplicateResourceException extends RuntimeException {
     private final Date timestamp;
     private final int status;
-    public PatientAlreadyExistsException(String message) {
+    public DuplicateResourceException(String message) {
         super(message);
         this.timestamp = new Date();
         this.status = 409;

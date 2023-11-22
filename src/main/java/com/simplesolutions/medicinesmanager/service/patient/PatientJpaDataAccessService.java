@@ -19,8 +19,7 @@ public class PatientJpaDataAccessService implements PatientDao {
 
     @Override
     public Optional<Patient> selectPatientById(Integer id) {
-        return Optional.of(patientRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("patient with id (%s) not found".formatted(id))));
+        return patientRepository.findById(id);
     }
 
     @Override
@@ -31,5 +30,17 @@ public class PatientJpaDataAccessService implements PatientDao {
     @Override
     public boolean doesPatientExists(String email) {
         return patientRepository.existsPatientByEmail(email);
+    }
+
+    @Override
+    public void deletePatientById(Integer id) {
+        Patient patient = selectPatientById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient doesn't exist"));
+        patientRepository.delete(patient);
+    }
+
+    @Override
+    public void updatePatient(Patient patient) {
+        patientRepository.save(patient);
     }
 }

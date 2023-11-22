@@ -12,7 +12,11 @@ public interface PatientDao {
 
     Optional<Patient> selectPatientById(Integer id);
 
+    void updatePatient(Patient patient);
+
     void savePatient(Patient patient);
 
     boolean doesPatientExists(String email);
+
+    void deletePatientById(Integer id);
 }

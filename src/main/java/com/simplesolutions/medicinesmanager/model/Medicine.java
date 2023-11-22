@@ -24,7 +24,7 @@ public class Medicine {
     @Column(name = "active_ingredient")
     String activeIngredient;
     @Column(name = "times_daily")
-    int timesDaily;
+    Integer timesDaily;
     @Column(name = "instructions")
     String instructions;
     @Convert(converter = StringListConverter.class)
