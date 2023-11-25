@@ -28,7 +28,6 @@ class MedicineJpaDataAccessServiceTest {
     MedicineJpaDataAccessService medicineJpaTest;
     Patient patient;
     Medicine medicine;
-    Faker faker;
     @Mock
     MedicineRepository medicineRepository;
     @Mock
@@ -39,7 +38,7 @@ class MedicineJpaDataAccessServiceTest {
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
         medicineJpaTest = new MedicineJpaDataAccessService(patientRepository, medicineRepository);
-        faker = new Faker();
+        Faker faker = new Faker();
         medicine = Medicine.builder()
                 .brandName(faker.lorem().characters(5))
                 .activeIngredient(faker.lorem().characters(10))

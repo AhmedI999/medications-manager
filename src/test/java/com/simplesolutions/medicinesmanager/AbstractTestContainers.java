@@ -1,6 +1,7 @@
 package com.simplesolutions.medicinesmanager;
 
 import org.flywaydb.core.Flyway;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -19,6 +20,11 @@ public abstract class AbstractTestContainers {
                 postgreSQLContainer.getUsername(),
                 postgreSQLContainer.getPassword()).load();
         flyway.migrate();
+    }
+
+    @AfterEach
+    void tearDown() {
+        postgreSQLContainer.close();
     }
 
     @Container
