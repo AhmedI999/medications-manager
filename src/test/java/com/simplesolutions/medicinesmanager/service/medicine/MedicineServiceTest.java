@@ -8,7 +8,6 @@ import com.simplesolutions.medicinesmanager.model.Medicine;
 import com.simplesolutions.medicinesmanager.model.Patient;
 import com.simplesolutions.medicinesmanager.paylod.MedicineRegistrationRequest;
 import com.simplesolutions.medicinesmanager.paylod.MedicineUpdateRequest;
-import com.simplesolutions.medicinesmanager.paylod.PatientUpdateRequest;
 import com.simplesolutions.medicinesmanager.service.patient.PatientDao;
 import jakarta.validation.ConstraintViolation;
 import lombok.AccessLevel;

@@ -1,7 +1,6 @@
 package com.simplesolutions.medicinesmanager.controller;
 
 import com.github.javafaker.Faker;
-import com.simplesolutions.medicinesmanager.exception.ResourceNotFoundException;
 import com.simplesolutions.medicinesmanager.model.Patient;
 import com.simplesolutions.medicinesmanager.paylod.PatientRegistrationRequest;
 import com.simplesolutions.medicinesmanager.paylod.PatientUpdateRequest;

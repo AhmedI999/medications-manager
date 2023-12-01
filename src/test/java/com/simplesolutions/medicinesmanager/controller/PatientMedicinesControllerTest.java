@@ -212,9 +212,6 @@ class PatientMedicinesControllerTest {
                 .expectStatus().isNotFound();
 
     }
-    // todo fix DoespatientMedicineexists
-    // todo test new methods in repositories
-    // todo fix unique medicine
     @Test
     @DisplayName("Verify that editMedicineDetails endpoint can update details")
     void editMedicineDetails() {

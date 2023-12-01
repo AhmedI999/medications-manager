@@ -1,6 +1,5 @@
 package com.simplesolutions.medicinesmanager.service.patient;
 
-import com.simplesolutions.medicinesmanager.exception.ResourceNotFoundException;
 import com.simplesolutions.medicinesmanager.model.Patient;
 import com.simplesolutions.medicinesmanager.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
