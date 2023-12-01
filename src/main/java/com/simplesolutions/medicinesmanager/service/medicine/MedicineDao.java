@@ -15,6 +15,6 @@ public interface MedicineDao {
     void updateMedicine(Medicine medicine);
     void deletePatientMedicineById(Integer patientId, Integer medicineId);
 
-    boolean doesPatientMedicineExists(String brandName);
+    boolean doesPatientMedicineExists(String email, String brandName);
 
 }

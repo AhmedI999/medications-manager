@@ -1,7 +1,7 @@
 package com.simplesolutions.medicinesmanager.service.patient;
 
 import com.simplesolutions.medicinesmanager.exception.DuplicateResourceException;
-import com.simplesolutions.medicinesmanager.exception.PatientUpdateException;
+import com.simplesolutions.medicinesmanager.exception.UpdateException;
 import com.simplesolutions.medicinesmanager.exception.ResourceNotFoundException;
 import com.simplesolutions.medicinesmanager.model.Patient;
 import com.simplesolutions.medicinesmanager.paylod.PatientRegistrationRequest;
@@ -40,14 +40,14 @@ public class PatientService {
 
     }
     public void deletePatient(Integer id){
-            patientDao.deletePatientById(id);
+        Patient patient = patientDao.selectPatientById(id).orElseThrow(() ->
+                        new ResourceNotFoundException("patient with id [%s] not found".formatted(id)));
+
+            patientDao.deletePatientById(patient.getId());
     }
     public void editPatientDetails(Integer id, PatientUpdateRequest request){
         Patient patient = getPatientById(id);
         boolean changes = false;
-        if (patient == null) {
-            throw new ResourceNotFoundException("Patient doesn't exist");
-        }
         if (request.getEmail() != null && !request.getEmail().equals(patient.getEmail())) {
             if (patientDao.doesPatientExists(request.getEmail())) {
                 throw new DuplicateResourceException(
@@ -67,7 +67,7 @@ public class PatientService {
             changes = true;
         }
         if (!changes) {
-            throw new PatientUpdateException("no data changes found");
+            throw new UpdateException("no data changes found");
         }
         patientDao.updatePatient(patient);
     }

@@ -53,27 +53,29 @@ class MedicineRepositoryTest extends AbstractTestContainers {
                 .instructions(faker.lorem().characters())
                 .interactions(faker.lorem().words(4))
                 .build();
+        medicine.setPatient(patient);
     }
     @Nested
     @DisplayName("For existsMedicineByBrandName method")
     class MedicineRepository_existsMedicineByBrandName{
         @Test
         @DisplayName("Medicine Exists with case valid brand name")
-        void existsMedicineByBrandName_returnsTrue() {
+        void existsMedicineByPatientEmailAndBrandName_returnsTrue() {
             // Given
+            patientTest.save(patient);
             medicineTest.save(medicine);
             //When
-            boolean actual = medicineTest.existsMedicineByBrandName(medicine.getBrandName());
+            boolean actual = medicineTest.existsMedicineByPatient_EmailAndBrandName(patient.getEmail(), medicine.getBrandName());
             //Then
             assertThat(actual).isTrue();
         }
         @Test
         @DisplayName("Medicine doesn't Exist with case invalid brand name")
-        void existsMedicineByBrandName_returnsFalse() {
+        void existsMedicineByPatientEmailAndBrandName_returnsFalse() {
             // Given
             String invalidBrandName = faker.lorem().characters(10);
             //When
-            boolean actual = medicineTest.existsMedicineByBrandName(invalidBrandName);
+            boolean actual = medicineTest.existsMedicineByPatient_EmailAndBrandName(patient.getEmail(), invalidBrandName);
             //Then
             assertThat(actual).isFalse();
         }
@@ -105,6 +107,35 @@ class MedicineRepositoryTest extends AbstractTestContainers {
             Optional<Medicine> actual = medicineTest.findByPatientIdAndId(invalidPatientId, invalidMedicineId);
             //Then
             assertThat(actual).isNotPresent();
+        }
+    }
+    @Nested
+    @DisplayName("For findByPatientIdAndBrandName method")
+    class MedicineRepository_findByPatientIdAndBrandName {
+
+        @Test
+        @DisplayName("Returns Medicine with patient id and Medicine brand name")
+        void findByPatientIdAndBrandName_returnsTrue() {
+            // Given
+            patientTest.save(patient);
+            medicineTest.save(medicine);
+            int paitentId = patientTest.findByEmail(patient.getEmail()).getId();
+            //When
+            Medicine actual = medicineTest.findByPatientIdAndBrandName(paitentId, medicine.getBrandName());
+            //Then
+            assertThat(actual).isNotNull();
+        }
+
+        @Test
+        @DisplayName("Throws ResourceNotFoundException with patient id and Invalid Medicine brandName")
+        void findByPatientIdAndBrandName_Throw() {
+            // Given
+            int invalidPatientId = -1;
+            String invalidMedicineBrandName = "InvalidBrand";
+            //When
+            Medicine actual = medicineTest.findByPatientIdAndBrandName(invalidPatientId, invalidMedicineBrandName);
+            //Then
+            assertThat(actual).isNull();
         }
     }
 }

@@ -34,9 +34,7 @@ public class PatientJpaDataAccessService implements PatientDao {
 
     @Override
     public void deletePatientById(Integer id) {
-        Patient patient = selectPatientById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Patient doesn't exist"));
-        patientRepository.delete(patient);
+        patientRepository.deleteById(id);
     }
 
     @Override

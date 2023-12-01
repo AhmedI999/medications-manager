@@ -7,12 +7,12 @@ import com.simplesolutions.medicinesmanager.repository.MedicineRepository;
 import com.simplesolutions.medicinesmanager.repository.PatientRepository;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class MedicineJpaDataAccessServiceTest {
     MedicineJpaDataAccessService medicineJpaTest;
@@ -32,11 +33,9 @@ class MedicineJpaDataAccessServiceTest {
     MedicineRepository medicineRepository;
     @Mock
     PatientRepository patientRepository;
-    AutoCloseable autoCloseable;
 
     @BeforeEach
     void setUp() {
-        autoCloseable = MockitoAnnotations.openMocks(this);
         medicineJpaTest = new MedicineJpaDataAccessService(patientRepository, medicineRepository);
         Faker faker = new Faker();
         medicine = Medicine.builder()
@@ -55,11 +54,6 @@ class MedicineJpaDataAccessServiceTest {
                 .age(faker.number().randomDigitNotZero())
                 .patientMedicines(Collections.singletonList(medicine))
                 .build();
-    }
-
-    @AfterEach
-    void tearDown() throws Exception {
-        autoCloseable.close();
     }
 
     @Test
@@ -116,9 +110,9 @@ class MedicineJpaDataAccessServiceTest {
     @DisplayName("Verify that doesPatientMedicineExists() can invoke existsMedicineByBrandName()")
     void doesPatientMedicineExists() {
         //When
-        medicineJpaTest.doesPatientMedicineExists(medicine.getBrandName());
+        medicineJpaTest.doesPatientMedicineExists(patient.getEmail(), medicine.getBrandName());
         //Then
-        verify(medicineRepository).existsMedicineByBrandName(medicine.getBrandName());
+        verify(medicineRepository).existsMedicineByPatient_EmailAndBrandName(patient.getEmail(), medicine.getBrandName());
     }
 
     @Test

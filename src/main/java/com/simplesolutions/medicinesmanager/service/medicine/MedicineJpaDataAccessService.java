@@ -41,8 +41,8 @@ public class MedicineJpaDataAccessService implements MedicineDao {
         medicineRepository.delete(patientMedicine);
     }
     @Override
-    public boolean doesPatientMedicineExists(String brandName) {
-        return medicineRepository.existsMedicineByBrandName(brandName);
+    public boolean doesPatientMedicineExists(String email, String brandName) {
+        return medicineRepository.existsMedicineByPatient_EmailAndBrandName(email, brandName);
     }
     @Override
     public void updateMedicine(Medicine medicine) {

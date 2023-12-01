@@ -64,4 +64,28 @@ class PatientRepositoryTest extends AbstractTestContainers {
             assertThat(actual).isFalse();
         }
     }
+    @Nested
+    @DisplayName("For findByEmail method")
+    class PatientRepository_findByEmail{}
+    @Test
+    @DisplayName("Return patient by email")
+    void findByEmail_returnsPatient() {
+        // Given
+        patientTest.save(patient);
+        //When
+        Patient actual = patientTest.findByEmail(patient.getEmail());
+        //Then
+        assertThat(actual).isEqualTo(patient);
+    }
+    @Test
+    @DisplayName("Throw ResourceNotFoundException with invalid email")
+    void findByEmail_throwResourceNotFoundException() {
+        // Given
+        patientTest.save(patient);
+        //When
+        Patient actual = patientTest.findByEmail(patient.getEmail() + "wrong");
+        //Then
+        assertThat(actual).isNull();
+    }
+
 }

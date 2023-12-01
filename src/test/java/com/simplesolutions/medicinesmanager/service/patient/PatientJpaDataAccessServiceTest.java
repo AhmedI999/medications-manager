@@ -5,46 +5,40 @@ import com.simplesolutions.medicinesmanager.model.Patient;
 import com.simplesolutions.medicinesmanager.repository.PatientRepository;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class PatientJpaDataAccessServiceTest {
     private PatientJpaDataAccessService patientJpaTest;
     Patient patient;
-    private Faker faker;
+    Faker faker;
     @Mock
-    private PatientRepository patientRepository;
-    private AutoCloseable autoCloseable;
+    PatientRepository patientRepository;
 
     @BeforeEach
     void setUp() {
-        autoCloseable = MockitoAnnotations.openMocks(this);
         patientJpaTest = new PatientJpaDataAccessService(patientRepository);
         faker = new Faker();
         patient = Patient.builder()
+                .id(faker.number().randomDigitNotZero())
                 .email(faker.internet().safeEmailAddress() + "-" + UUID.randomUUID())
                 .password(faker.internet().password())
                 .firstname(faker.name().firstName())
                 .lastname(faker.name().lastName())
                 .age(faker.number().randomDigitNotZero())
                 .build();
-    }
-
-    @AfterEach
-    void tearDown() throws Exception {
-        autoCloseable.close();
     }
 
     @Test
@@ -94,12 +88,11 @@ class PatientJpaDataAccessServiceTest {
     @DisplayName("Verify that deletePatientById() can invoke delete()")
     void deletePatientById() {
         // Given
-        when(patientRepository.findById(patient.getId()))
-                .thenReturn(Optional.of(patient));
+        doNothing().when(patientRepository).deleteById(patient.getId());
         //When
         patientJpaTest.deletePatientById(patient.getId());
         //Then
-        verify(patientRepository).delete(patient);
+        verify(patientRepository).deleteById(patient.getId());
     }
 
     @Test
