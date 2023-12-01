@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DisplayName("Patients controller Integration Tests")
-class PatientsIntegrationTest{
+class PatientsControllerIT {
     @Autowired
     WebTestClient webTestClient;
     @Autowired
