@@ -1,6 +1,5 @@
 package com.simplesolutions.medicinesmanager.exception;
 
-import jakarta.validation.constraints.NotNull;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -21,8 +20,9 @@ public class RegistrationConstraintsException extends ResponseEntityExceptionHan
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
-            @NotNull HttpHeaders headers, HttpStatusCode status,
-            @NotNull WebRequest request) {
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request) {
         Map<String, Object> responseBody = new LinkedHashMap<>();
         responseBody.put("timestamp", new Date());
         responseBody.put("status", status.value());
