@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_DB: medicinemanager
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: root
+      POSTGRES_PASSWORD: ahmedroot
       PGDATA: /data/postgres
     volumes:
       - db:/data/postgres
